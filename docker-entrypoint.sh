@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+echo "pg:x:`id -u`:0:pg:/:/sbin/nologin" >> /etc/passwd
+
 if [ "$1" = 'postgres' ]; then
 	#chown -R postgres "$PGDATA"
 
