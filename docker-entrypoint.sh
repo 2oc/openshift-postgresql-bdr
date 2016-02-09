@@ -2,16 +2,16 @@
 set -e
 
 if [ "$1" = 'postgres' ]; then
-	chown -R postgres "$PGDATA"
-	
+	#chown -R postgres "$PGDATA"
+
 	chmod g+s /run/postgresql
 	chown -R postgres:postgres /run/postgresql
-	
+
 	if [ -z "$(ls -A "$PGDATA")" ]; then
 		gosu postgres initdb
-		
+
 		sed -ri "s/^#(listen_addresses\s*=\s*)\S+/\1'*'/" "$PGDATA"/postgresql.conf
-		
+
 		# check password first so we can ouptut the warning before postgres
 		# messes it up
 		if [ "$POSTGRES_PASSWORD" ]; then
@@ -27,16 +27,16 @@ if [ "$1" = 'postgres' ]; then
 				         Docker's default configuration, this is
 				         effectively any other container on the same
 				         system.
-				         
+
 				         Use "-e POSTGRES_PASSWORD=password" to set
 				         it in "docker run".
 				****************************************************
 			EOWARN
-			
+
 			pass=
 			authMethod=trust
 		fi
-		
+
 		: ${POSTGRES_USER:=postgres}
 		: ${POSTGRES_DB:=$POSTGRES_USER}
 
@@ -46,7 +46,7 @@ if [ "$1" = 'postgres' ]; then
 			EOSQL
 			echo
 		fi
-		
+
 		if [ "$POSTGRES_USER" = 'postgres' ]; then
 			op='ALTER'
 		else
@@ -57,12 +57,12 @@ if [ "$1" = 'postgres' ]; then
 			$op USER "$POSTGRES_USER" WITH SUPERUSER $pass ;
 		EOSQL
 		echo
-		
+
 		{ echo;
       echo "host all all 0.0.0.0/0 $authMethod";
       echo "host replication all 0.0.0.0/0 $authMethod";
     } >> "$PGDATA"/pg_hba.conf
-		
+
 		{ echo;
       echo "shared_preload_libraries = 'bdr'";
       echo "wal_level = 'logical'";
@@ -78,7 +78,7 @@ if [ "$1" = 'postgres' ]; then
 			done
 		fi
 	fi
-	
+
 	exec gosu postgres "$@"
 fi
 
