@@ -8,7 +8,7 @@ if [ "$1" = 'postgres' ]; then
 	#chown -R postgres:postgres /run/postgresql
 
 	if [ -z "$(ls -A "$PGDATA")" ]; then
-		gosu postgres initdb
+		 postgres initdb
 
 		sed -ri "s/^#(listen_addresses\s*=\s*)\S+/\1'*'/" "$PGDATA"/postgresql.conf
 
@@ -41,7 +41,7 @@ if [ "$1" = 'postgres' ]; then
 		: ${POSTGRES_DB:=$POSTGRES_USER}
 
 		if [ "$POSTGRES_DB" != 'postgres' ]; then
-			gosu postgres postgres --single -jE <<-EOSQL
+			 postgres postgres --single -jE <<-EOSQL
 				CREATE DATABASE "$POSTGRES_DB" ;
 			EOSQL
 			echo
@@ -53,7 +53,7 @@ if [ "$1" = 'postgres' ]; then
 			op='CREATE'
 		fi
 
-		gosu postgres postgres --single -jE <<-EOSQL
+		 postgres postgres --single -jE <<-EOSQL
 			$op USER "$POSTGRES_USER" WITH SUPERUSER $pass ;
 		EOSQL
 		echo
@@ -79,7 +79,7 @@ if [ "$1" = 'postgres' ]; then
 		fi
 	fi
 
-	exec gosu postgres "$@"
+	exec  postgres "$@"
 fi
 
 exec "$@"
