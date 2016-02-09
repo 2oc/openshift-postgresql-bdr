@@ -7,8 +7,10 @@ Look there for further usage instructions.
 
 ## Quick setup
 
+```sh
 oc new-app https://github.com/weepee-org/openshift-postgresql-bdr.git --name pgsql01
 oc new-app https://github.com/weepee-org/openshift-postgresql-bdr.git --name pgsql02
+```
 
 Create a database on each node, eg named bdrdemo. Then, connect to the
 database on the first node and run:
