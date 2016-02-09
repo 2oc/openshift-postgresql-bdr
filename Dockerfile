@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/* \
   && gpg --verify /usr/local/bin/gosu.asc \
   && rm /usr/local/bin/gosu.asc \
   && chmod +x /usr/local/bin/gosu \
-  && apt-get purge -y --auto-remove curl && chmod a+rw /etc/passwd
+  && apt-get purge -y --auto-remove curl && chmod a+rw /etc/passwd && chmod a+rwx /var/lib/postgresql/data
 
 # make the "en_US.UTF-8" locale so postgres will be utf-8 enabled by default
 RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
