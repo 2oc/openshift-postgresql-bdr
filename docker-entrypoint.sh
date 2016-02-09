@@ -1,6 +1,4 @@
 #!/bin/bash
-sleep 3600
-
 set -e
 
 if [ "$1" = 'postgres' ]; then
@@ -10,7 +8,7 @@ if [ "$1" = 'postgres' ]; then
 	#chown -R postgres:postgres /run/postgresql
 
 	if [ -z "$(ls -A "$PGDATA")" ]; then
-		 postgres initdb
+		initdb
 
 		sed -ri "s/^#(listen_addresses\s*=\s*)\S+/\1'*'/" "$PGDATA"/postgresql.conf
 
@@ -43,7 +41,7 @@ if [ "$1" = 'postgres' ]; then
 		: ${POSTGRES_DB:=$POSTGRES_USER}
 
 		if [ "$POSTGRES_DB" != 'postgres' ]; then
-			 postgres postgres --single -jE <<-EOSQL
+			postgres --single -jE <<-EOSQL
 				CREATE DATABASE "$POSTGRES_DB" ;
 			EOSQL
 			echo
@@ -55,7 +53,7 @@ if [ "$1" = 'postgres' ]; then
 			op='CREATE'
 		fi
 
-		 postgres postgres --single -jE <<-EOSQL
+		postgres --single -jE <<-EOSQL
 			$op USER "$POSTGRES_USER" WITH SUPERUSER $pass ;
 		EOSQL
 		echo
@@ -81,7 +79,7 @@ if [ "$1" = 'postgres' ]; then
 		fi
 	fi
 
-	exec  postgres "$@"
+	exec "$@"
 fi
 
 exec "$@"
