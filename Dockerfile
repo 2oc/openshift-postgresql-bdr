@@ -39,7 +39,7 @@ RUN apt-get update \
     postgresql-bdr-$PG_MAJOR \
     postgresql-bdr-contrib-$PG_MAJOR \
     postgresql-bdr-$PG_MAJOR-bdr-plugin \
-  && rm -rf /var/lib/apt/lists/*
+  && rm -rf /var/lib/apt/lists/* && chmod a+rwx /docker-entrypoint.sh
 
 RUN mkdir -p /var/run/postgresql && chown -R postgres /var/run/postgresql
 
