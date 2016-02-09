@@ -30,14 +30,14 @@ RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/* \
 RUN echo 'deb http://packages.2ndquadrant.com/bdr/apt/ jessie-2ndquadrant main ' > /etc/apt/sources.list.d/2ndquadrant.list
 
 ENV PG_MAJOR 9.4
-ENV PG_VERSION 9.4.1-2jessie
+#ENV PG_VERSION 9.4.1-2jessie
 
 RUN apt-get update \
   && apt-get install -y postgresql-common \
   && sed -ri 's/#(create_main_cluster) .*$/\1 = false/' /etc/postgresql-common/createcluster.conf \
   && apt-get install -y \
-    postgresql-bdr-$PG_MAJOR=$PG_VERSION \
-    postgresql-bdr-contrib-$PG_MAJOR=$PG_VERSION \
+    postgresql-bdr-$PG_MAJOR \
+    postgresql-bdr-contrib-$PG_MAJOR \
     postgresql-bdr-$PG_MAJOR-bdr-plugin \
   && rm -rf /var/lib/apt/lists/*
 
