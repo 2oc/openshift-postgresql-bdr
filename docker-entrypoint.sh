@@ -1,4 +1,6 @@
 #!/bin/bash
+sleep 3600
+
 set -e
 
 if [ "$1" = 'postgres' ]; then
