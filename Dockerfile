@@ -41,7 +41,7 @@ RUN apt-get update \
     postgresql-bdr-$PG_MAJOR \
     postgresql-bdr-contrib-$PG_MAJOR \
     postgresql-bdr-$PG_MAJOR-bdr-plugin \
-  && rm -rf /var/lib/apt/lists/* && chmod a+rwx /docker-entrypoint.sh && mkdir -p /var/run/postgresql && chmod a+rwx /var/run/postgresql && mkdir /run && chmod a+rwx /run
+  && rm -rf /var/lib/apt/lists/* && chmod a+rwx /docker-entrypoint.sh && mkdir -p /var/run/postgresql && chmod a+rwx /var/run/postgresql && chmod a+rwx /run
 
 ENV PATH /usr/lib/postgresql/$PG_MAJOR/bin:$PATH
 ENV PGDATA /var/lib/postgresql/data
