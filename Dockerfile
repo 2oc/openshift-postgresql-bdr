@@ -32,6 +32,8 @@ RUN echo 'deb http://packages.2ndquadrant.com/bdr/apt/ jessie-2ndquadrant main '
 ENV PG_MAJOR 9.4
 #ENV PG_VERSION 9.4.1-2jessie
 
+COPY docker-entrypoint.sh /
+
 RUN apt-get update \
   && apt-get install -y postgresql-common \
   && sed -ri 's/#(create_main_cluster) .*$/\1 = false/' /etc/postgresql-common/createcluster.conf \
@@ -46,8 +48,6 @@ RUN mkdir -p /var/run/postgresql && chown -R postgres /var/run/postgresql
 ENV PATH /usr/lib/postgresql/$PG_MAJOR/bin:$PATH
 ENV PGDATA /var/lib/postgresql/data
 VOLUME /var/lib/postgresql/data
-
-COPY docker-entrypoint.sh /
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
